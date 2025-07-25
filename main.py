@@ -5,7 +5,7 @@ import os
 
 warnings.filterwarnings('ignore', category=scratch.LoginDataWarning)
 session = scratch.login(os.environ['USERNAME'], os.environ['PASSWORD'])
-client = InferenceClient()
+client = InferenceClient(os.environ['HF_TOKEN')
 project = session.connect_project(1195042681)
 comment_object = project.comments(limit=1, offset=0)[0]
 
