@@ -2,10 +2,11 @@ import scratchattach as scratch
 from huggingface_hub import InferenceClient
 import warnings
 import os
+import time
 
 warnings.filterwarnings('ignore', category=scratch.LoginDataWarning)
 session = scratch.login(os.environ['USERNAME'], os.environ['PASSWORD'])
-client = InferenceClient(os.environ['HF_TOKEN')
+client = InferenceClient()
 project = session.connect_project(1195042681)
 comment_object = project.comments(limit=1, offset=0)[0]
 
@@ -29,10 +30,10 @@ def start():
             comment_object = project.comments(limit=1, offset=0)[0]
             comment = comment_object.content
             session.connect_user(comment_object.author_name).follow()
-            print(comment)
             response = generate(f"Respond to this comment if you were british: {comment}").content
-            print(response[0:500])
+            print(f"INPUT: {comment} OUTPUT: {response[0:500]}")
             project.reply_comment(response[0:500], parent_id=comment_object.id)
+            time.sleep(30)
         comment_object = project.comments(limit=1, offset=0)[0]
 
 
